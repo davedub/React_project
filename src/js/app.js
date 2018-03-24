@@ -14,13 +14,34 @@ export class App extends React.Component {
             const {buyItems} = this.state;
             return (
             <div>
+            <header>
+                {/* <img src={image} /> */}
                 <h1>Shopping List</h1>
-                {
-                buyItems.map(item => {
-                        return <p key={item}>{item}</p>
-                })
-            }
+            </header>
+            <table className="table">
+                <caption>Shopping List</caption>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Item</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>  
+                <tbody>         
+                    {
+                    buyItems.map(item => {
+                        return (
+                            <tr key={item}>
+                                <th scope="row">1</th>
+                                <td>{item}</td>
+                                <td>Button</td>
+                            </tr> 
+                        )
+                    })
+                }
+                </tbody>
+            </table>
             </div>
-            )
-        }
+        );
     }
+}
