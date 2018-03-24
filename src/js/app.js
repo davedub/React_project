@@ -14,12 +14,12 @@ export const App = () => {
     return (
      <div>
      <Headline />   
-     <Greeting name="Bill" age={36} /> 
+     <Greeting name="Steve" age={36} /> 
      </div>
      )
 }
 
 Greeting.propTypes = {
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired,
     age: PropTypes.number
 };
