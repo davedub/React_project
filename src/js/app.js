@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Popper from 'popper.js';
+// import scss from './../styles/app.scss';
 
+console.log("Hello from app.js and webpack dev server!!");
 
 export class App extends React.Component {
 
@@ -13,7 +16,7 @@ export class App extends React.Component {
         render() {
             const {buyItems} = this.state;
             return (
-            <div class="container">
+            <div className="container">
             <header>
                 {/* <img src={image} /> */}
                 <h1>Shopping List</h1>

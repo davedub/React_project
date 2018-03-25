@@ -8,15 +8,16 @@ const isProd = process.env.NODE_ENV === 'production' // true or false
 const cssDev = ['style-loader', 'css-loader', 'sass-loader'];    
 
 const bootstrapEntryPoints = require('./webpack.bootstrap.config.js');
-const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev; 
 
-const extractProd = new ExtractTextPlugin('[name].css');
+const extractProd = new ExtractTextPlugin('css/[name].css');
+
 const cssProd = extractProd.extract({
     fallback: 'style-loader',
     use: [ 'css-loader?modules&importLoaders=2&localIdentName=[name]__[local]__[hash:base64:5]' , 'sass-loader' ],
     publicPath: '/dist'
     });
 
+const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev; 
 
 module.exports = {
     entry: {
@@ -59,8 +60,7 @@ module.exports = {
           hash: true, // creates a hash for every generated file
           template: './src/index.html', // Load a custom template (lodash by default see the FAQ for details)
         }),
-        new ExtractTextPlugin("app.css"),
-        new webpack.ProvidePlugin({
+         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery",
             "window.jQuery": "jquery",
@@ -79,6 +79,7 @@ module.exports = {
             Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
             Util: "exports-loader?Util!bootstrap/js/dist/util",
           }),
+          extractProd,
         new webpack.NamedModulesPlugin(),
           // prints more readable module names in the browser console on HMR update
         new webpack.HotModuleReplacementPlugin()
