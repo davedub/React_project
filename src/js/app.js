@@ -13,7 +13,7 @@ export class App extends React.Component {
         render() {
             const {buyItems} = this.state;
             return (
-            <div>
+            <div class="container">
             <header>
                 {/* <img src={image} /> */}
                 <h1>Shopping List</h1>
@@ -31,7 +31,7 @@ export class App extends React.Component {
                     {
                     buyItems.map(item => {
                         return (
-                            <tr key={item}>
+                            <tr key={item }>
                                 <th scope="row">1</th>
                                 <td>{item}</td>
                                 <td>Button</td>

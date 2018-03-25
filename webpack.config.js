@@ -1,17 +1,27 @@
+const webpack = require('webpack');
+const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const path = require("path");
+
+const isProd = process.env.NODE_ENV === 'production' // true or false
+
+const cssDev = ['style-loader', 'css-loader', 'sass-loader'];    
 
 const bootstrapEntryPoints = require('./webpack.bootstrap.config.js');
+const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev; 
 
-const webpack = require('webpack');
+const extractProd = new ExtractTextPlugin('[name].css');
+const cssProd = extractProd.extract({
+    fallback: 'style-loader',
+    use: [ 'css-loader?modules&importLoaders=2&localIdentName=[name]__[local]__[hash:base64:5]' , 'sass-loader' ],
+    publicPath: '/dist'
+    });
 
-// const bootstrapConfig = "bootstrapEntryPoints";
 
 module.exports = {
     entry: {
         app: './src/js/index.js',
-        bootstrap: './webpack.bootstrap.config.js',
+        bootstrap: bootstrapConfig,
         contact: './src/js/contact.js'
 },
     output: {
@@ -21,8 +31,13 @@ module.exports = {
     module: {
         rules: [
             {
+            test: /bootstrap\/dist\/js\/umd\//, 
+            use: 'imports-loader?jQuery=jquery'
+            },
+            {
             test: /\.scss$/,
-            use: ExtractTextPlugin.extract([ 'css-loader', 'sass-loader'])
+            // use: ExtractTextPlugin.extract([ 'css-loader', 'sass-loader'])
+            use: isProd ? cssProd : cssDev
             },
             {
             test: /\.js$/,
@@ -33,7 +48,8 @@ module.exports = {
         },
     devServer: {
         contentBase: path.join(__dirname, "dist"),
-        compress: true,
+        compress: false,
+        hot: true,
         stats: "errors-only",
         open: true
     },
@@ -62,6 +78,10 @@ module.exports = {
             Tab: "exports-loader?Tab!bootstrap/js/dist/tab",
             Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
             Util: "exports-loader?Util!bootstrap/js/dist/util",
-          })
+          }),
+        new webpack.NamedModulesPlugin(),
+          // prints more readable module names in the browser console on HMR update
+        new webpack.HotModuleReplacementPlugin()
+          // enable HMR globally
       ]
 }

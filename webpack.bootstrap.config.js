@@ -1,4 +1,4 @@
-// const fs = require('fs');
+const fs = require('fs');
 function getBootstraprcCustomLocation() {
   return process.env.BOOTSTRAPRC_LOCATION;
 }
