@@ -4,18 +4,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const isProd = process.env.NODE_ENV === 'production' // true or false
-
-const cssDev = ['style-loader', 'css-loader', 'sass-loader'];    
-
 const bootstrapEntryPoints = require('./webpack.bootstrap.config.js');
-
 const extractProd = new ExtractTextPlugin('css/[name].css');
 
+const cssDev = ['style-loader', 'css-loader', 'sass-loader'];    
 const cssProd = extractProd.extract({
     fallback: 'style-loader',
     use: [ 'css-loader?modules&importLoaders=2&localIdentName=[name]__[local]__[hash:base64:5]' , 'sass-loader' ],
     publicPath: '/dist'
     });
+// these options are for extracting scss in build but not needed in webpack-dev-server 
 
 const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev; 
 
