@@ -42,7 +42,18 @@ module.exports = {
             test: /\.js$/,
             exclude: path.resolve(__dirname, 'node_modules'),
             use: 'babel-loader'
-            }
+            },
+            {
+            test: /\.(pdf|jpg|png|gif|svg|ico)$/,
+            use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[path][name]-[hash:8].[ext]'
+                        },
+                    },
+                ]
+            },
             ]
         },
     devServer: {

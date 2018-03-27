@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Popper from 'popper.js';
 // import scss from './../styles/app.scss';
+import toDoList from '../../src/images/toDoList-512.png';
 
 console.log("Hello from app.js and webpack dev server!!");
 
@@ -18,8 +19,8 @@ export class App extends React.Component {
             return (
             <div className="container">
             <header>
-                {/* <img src={image} /> */}
-                <h1>Shopping List</h1>
+                <img src={toDoList} class="mx-auto d-block" width="64px" height="64px" />
+                <h1 class="row justify-content-md-center">Shopping List</h1>
             </header>
             <table className="table">
                 <caption>Shopping List</caption>
