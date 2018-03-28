@@ -14,16 +14,34 @@ export class App extends React.Component {
              buyItems: ['milk', 'bread', 'fruit']
             }
         }
+
+        addItem(e) {
+            e.preventDefault()
+            const {buyItems} = this.state;
+            const newItem = this.newItem.value;  
+            this.setState({
+                buyItems: [...this.state.buyItems, newItem]
+                // three dots are "spread attributes" to keep old items already in state 
+            })
+            this.addForm.reset();
+        }       
         render() {
             const {buyItems} = this.state;
             return (
-            <div className="container">
+            <div className="container" 	onSubmit={(e) => {this.addItem(e)}}>
             <header>
                 <img src={toDoList} class="mx-auto d-block" width="64px" height="64px" />
                 <h1 class="row justify-content-md-center">Shopping List</h1>
+                <form ref={input => this.addForm = input}  className="form-inline row justify-content-md-center">
+                    <div className="form-group">
+                        <label className="sr-only" htmlFor="newItemInput">Add New Item></label>
+                        <input ref={input => this.newItem = input} type="text" placeholder="Item name" className="form-control" id="newItemInput" />                    </div>
+                    <button type="submit" className="btn btn-primary">Add</button>
+                </form>
+
             </header>
             <table className="table">
-                <caption>Shopping List</caption>
+                <caption>Things to Buy</caption>
                 <thead>
                     <tr>
                         <th>#</th>
