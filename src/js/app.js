@@ -10,41 +10,54 @@ export class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {   // a simple object containing the state of the app
-             buyItems: ['milk', 'bread', 'fruit']
+        this.state = {  // simple object containing state of app
+             buyItems: ['milk', 'bread', 'fruit'],
+             message: ''
             }
         }
-
         addItem(e) {
             e.preventDefault()
             const {buyItems} = this.state;
             const newItem = this.newItem.value;  
-            this.setState({
+
+            const isOnTheList = buyItems.includes(newItem);
+
+            if(isOnTheList) {
+                this.setState({
+                    message: 'this item is already on the list'
+                })
+            } else
+            newItem !== '' && this.setState({
                 buyItems: [...this.state.buyItems, newItem]
                 // three dots are "spread attributes" to keep old items already in state 
             })
+
             this.addForm.reset();
         }       
         render() {
-            const {buyItems} = this.state;
+            const {buyItems, message} = this.state;
             return (
-            <div className="container" 	onSubmit={(e) => {this.addItem(e)}}>
+            <div className="container">
             <header>
-                <img src={toDoList} class="mx-auto d-block" width="64px" height="64px" />
-                <h1 class="row justify-content-md-center">Shopping List</h1>
-                <form ref={input => this.addForm = input}  className="form-inline row justify-content-md-center">
-                    <div className="form-group">
+                <img src={toDoList} className="mx-auto d-block" width="64px" height="64px" />
+                <h1 className="row justify-content-md-center">Shopping List</h1>
+                  <form ref={input => this.addForm = input}  className="form-inline row justify-content-md-center" onSubmit={(e) => {this.addItem(e)}} >
+                    <div className="form-group row">
                         <label className="sr-only" htmlFor="newItemInput">Add New Item></label>
-                        <input ref={input => this.newItem = input} type="text" placeholder="Item name" className="form-control" id="newItemInput" />                    </div>
+                        <input ref={input => this.newItem = input} type="text" placeholder="Item name" className="form-control" id="newItemInput" />                    
                     <button type="submit" className="btn btn-primary">Add</button>
+                    </div>
                 </form>
-
             </header>
-            <table className="table">
+                {
+                    message !== '' && <p className="row justify-content-md-center message text-danger warn-message">{message}</p>
+                }
+            <div className="shopListContainer"> 
+            <table className="table table-borderless table-striped table-hover shopListTable">
                 <caption>Things to Buy</caption>
-                <thead>
+                <thead className="table-dark">
                     <tr>
-                        <th>#</th>
+                        <th>Quantity</th>
                         <th>Item</th>
                         <th>Action</th>
                     </tr>
@@ -63,6 +76,7 @@ export class App extends React.Component {
                 }
                 </tbody>
             </table>
+            </div>
             </div>
         );
     }

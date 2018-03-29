@@ -6,5 +6,26 @@ body {
     background-color: $body-color;
 }
 div.container {
-	background-color: $body-bg;
+    background-color: $body-bg;
+    padding-top: 12px;
+    margin: 18px auto 0px auto;
+}
+
+.table {
+    border-radius: 5px;
+    width: 50%;
+    margin: 12px auto;
+    float: none;
+}
+
+.warn-message {
+    font-style: italic;
+}
+
+.shopListTable {
+    margin: 12px auto;
+}
+.shopListContainer {
+    max-width: 80%;
+    margin: 12px auto;
 }

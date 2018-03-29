@@ -1,2 +1,11 @@
-$body-bg:              #2eacd3		!default;
-$body-color:           #5addde 	!default;
+$body-bg:              #b4dce9		!default;
+$body-color:           #907dd6 	!default;
+
+/* borderless table */
+.table.table-borderless td, .table.table-borderless th {
+    border: 0 !important;
+}
+
+.table.table-borderless {
+    margin-bottom: 0px;
+}
