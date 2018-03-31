@@ -28,12 +28,24 @@ export class App extends React.Component {
                 })
             } else
             newItem !== '' && this.setState({
-                buyItems: [...this.state.buyItems, newItem]
-                // three dots are "spread attributes" to keep old items already in state 
+                buyItems: [...this.state.buyItems, newItem],
+                // three dots = "rest parameter" 
+                // allows for indefinite # of args in array
+                // must be at end if inside function def) 
+                message: ''
             })
-
             this.addForm.reset();
-        }       
+        }  
+        removeItem(item) {
+            console.log('remove '+item);
+            const newBuyItems = this.state.buyItems.filter(buyItem=> {
+                return buyItem !== item;
+            })
+            this.setState ({
+                buyItems: [...newBuyItems]
+            })
+        }
+
         render() {
             const {buyItems, message} = this.state;
             return (
@@ -59,19 +71,23 @@ export class App extends React.Component {
                     <tr>
                         <th>Quantity</th>
                         <th>Item</th>
-                        <th>Action</th>
+                        <th className="text-right" >Action</th>
                     </tr>
                 </thead>  
                 <tbody>         
                     {
-                    buyItems.map(item => {
-                        return (
-                            <tr key={item }>
-                                <th scope="row">1</th>
-                                <td>{item}</td>
-                                <td>Button</td>
-                            </tr> 
-                        )
+        buyItems.map(item => {
+            return (
+                <tr key={item }>
+                    <th scope="row">1</th>
+                    <td>{item}</td>
+					<td className="text-right">
+					  <button onClick={(e)=> this.removeItem(item)} type="button" className="btn btn-default btn-sm">
+                      Remove
+                      </button>
+					</td>
+                </tr> 
+            ) 
                     })
                 }
                 </tbody>
