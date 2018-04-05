@@ -20,9 +20,7 @@ export class App extends React.Component {
             e.preventDefault()
             const {buyItems} = this.state;
             const newItem = this.newItem.value;  
-
             const isOnTheList = buyItems.includes(newItem);
-
             if(isOnTheList) {
                 this.setState({
                     message: 'this item is already on the list'
@@ -51,40 +49,34 @@ export class App extends React.Component {
                 })
             }
         }
-        clearList(item) {
-            const buyItems = [];
-            console.log('all items removed from list' );
-            const clearedList = this.state.buyItems.filter(buyItem=> {
-                return buyItems === 0;
-            })
+        clearAll() {
             this.setState({
-                    buyItems: clearedList,
-                    message: "Your list has been cleared. Add some more items"
+                    buyItems: [],
+                    message: "Your list has been cleared. Add some more items."
                 })
             }
-        // }
 
         render() {
-            const {buyItems, clearedList, message} = this.state;
+            const {buyItems, message} = this.state;
             return (
             <div className="container">
-            <header>
+           <header>
                 <img src={toDoList} className="mx-auto d-block" width="64px" height="64px" />
                 <h1 className="row justify-content-md-center">Shopping List</h1>
-                  <form ref={input => this.addForm = input}  className="form-inline row justify-content-md-center" onSubmit={(e) => {this.addItem(e)}} >
+                  <form ref={input => this.addForm = input}  className="form-inline justify-content-md-center" onSubmit={(e) => {this.addItem(e)}} >
                     <div className="form-group row">
                         <label className="sr-only" htmlFor="newItemInput">Add New Item></label>
-                        <input ref={input => this.newItem = input} type="text" placeholder="Item name" className="form-control" id="newItemInput" />                    
+                        <input ref={input => this.newItem = input} type="text" placeholder="Add item" className="form-control" id="newItemInput" />                    
                     <button type="submit" className="btn btn-primary">Add</button>
                     </div>
                 </form>
             </header>
-                {
-                    (message !== '' || buyItems.length === 0) && <p className="row justify-content-md-center message text-danger warn-message">{message}</p>
-                }
-                {
-          <div className="shopListContainer"> 
-          <table className="table table-borderless table-striped table-hover shopListTable">
+            {
+                (message !== '' || buyItems.length === 0) && <p className="row justify-content-md-center message text-danger warn-message">{message}</p>
+            }
+            {
+            <div className="shopListContainer"> 
+            <table className="table table-borderless table-striped table-hover shopListTable">
               <caption>Things to Buy</caption>
               <thead className="table-dark">
                   <tr>
@@ -107,27 +99,21 @@ export class App extends React.Component {
                 ) 
                 })
                 }
-            </tbody>
-            <tfoot>
-      {
-          
-          clearedList.map(item => {
-          return (
+        </tbody>
+        <tfoot>
                 <tr>
                     <td colSpan = "2">&nbsp;</td>
                     <td className="text-right">
-                        <button onClick={(e)=> this.clearList(item)} type="button" className="btn btn-default btn-sm">Clear list</button>
+		                        <button onClick={(e)=> this.clearList(item)} type="button" className="btn btn-default btn-sm">
+								Clear list
+                                </button>
                     </td>
                 </tr>
-                ) 
-            })
-        }
         </tfoot>
           </table>
-          </div>
-                }
               </div>
+            }
+            </div>
         );
     }
-
 }
