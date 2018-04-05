@@ -12,6 +12,7 @@ export class App extends React.Component {
         super(props);
         this.state = {  // simple object containing state of app
              buyItems: ['milk', 'bread', 'fruit'],
+             clearedList: [this.setState.length],
              message: ''
             }
         }
@@ -44,10 +45,27 @@ export class App extends React.Component {
             this.setState ({
                 buyItems: [...newBuyItems]
             })
+            if(newBuyItems.length === 0) {
+                this.setState({
+                    message: "There are no items on your list, add some."
+                })
+            }
         }
+        clearList(item) {
+            const buyItems = [];
+            console.log('all items removed from list' );
+            const clearedList = this.state.buyItems.filter(buyItem=> {
+                return buyItems === 0;
+            })
+            this.setState({
+                    buyItems: clearedList,
+                    message: "Your list has been cleared. Add some more items"
+                })
+            }
+        // }
 
         render() {
-            const {buyItems, message} = this.state;
+            const {buyItems, clearedList, message} = this.state;
             return (
             <div className="container">
             <header>
@@ -62,38 +80,54 @@ export class App extends React.Component {
                 </form>
             </header>
                 {
-                    message !== '' && <p className="row justify-content-md-center message text-danger warn-message">{message}</p>
+                    (message !== '' || buyItems.length === 0) && <p className="row justify-content-md-center message text-danger warn-message">{message}</p>
                 }
-            <div className="shopListContainer"> 
-            <table className="table table-borderless table-striped table-hover shopListTable">
-                <caption>Things to Buy</caption>
-                <thead className="table-dark">
-                    <tr>
-                        <th>Quantity</th>
-                        <th>Item</th>
-                        <th className="text-right" >Action</th>
-                    </tr>
-                </thead>  
-                <tbody>         
-                    {
-        buyItems.map(item => {
-            return (
-                <tr key={item }>
-                    <th scope="row">1</th>
+                {
+          <div className="shopListContainer"> 
+          <table className="table table-borderless table-striped table-hover shopListTable">
+              <caption>Things to Buy</caption>
+              <thead className="table-dark">
+                  <tr>
+                      <th>Quantity</th>
+                      <th>Item</th>
+                      <th className="text-right" >Action</th>
+                  </tr>
+              </thead>  
+            <tbody>         
+            {
+      buyItems.map(item => {
+          return (
+              <tr key={item }>
+                 <th scope="row">1</th>
                     <td>{item}</td>
-					<td className="text-right">
-					  <button onClick={(e)=> this.removeItem(item)} type="button" className="btn btn-default btn-sm">
-                      Remove
-                      </button>
-					</td>
-                </tr> 
-            ) 
-                    })
+                    <td className="text-right">
+                    <button onClick={(e)=> this.removeItem(item)} type="button" className="btn btn-default btn-sm">Remove</button>
+                    </td>
+               </tr> 
+                ) 
+                })
                 }
-                </tbody>
-            </table>
-            </div>
-            </div>
+            </tbody>
+            <tfoot>
+      {
+          
+          clearedList.map(item => {
+          return (
+                <tr>
+                    <td colSpan = "2">&nbsp;</td>
+                    <td className="text-right">
+                        <button onClick={(e)=> this.clearList(item)} type="button" className="btn btn-default btn-sm">Clear list</button>
+                    </td>
+                </tr>
+                ) 
+            })
+        }
+        </tfoot>
+          </table>
+          </div>
+                }
+              </div>
         );
     }
+
 }
